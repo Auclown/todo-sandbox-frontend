@@ -1,0 +1,69 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig*.json"
+      - "vite.config.*"
+      - ".github/workflows/pr-checks.yml"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: Security & Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Run GitLeaks
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  code-quality:
+    name: Unit Tests & Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install Clean Dependencies
+        run: npm ci
+
+      - name: Dependency Security Audit
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Lint & Code Formatting Check
+        run: |
+          npm run lint
+          npx prettier --check .
+
+      - name: Type Safety Verification
+        run: npx tsc --noEmit
+
+      - name: Run Unit & Component Tests
+        run: npm run test
+
+      - name: Production Build Dry-Run
+        run: npm run build

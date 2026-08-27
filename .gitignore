@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Terraform local state & plugins
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars

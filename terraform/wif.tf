@@ -10,6 +10,7 @@ resource "google_service_account" "frontend_deployer" {
 }
 
 # 2. Bind the Frontend GitHub Repo to the Existing WIF Pool
+# TODO: Make the "github-actions-pool-v2" part dynamic
 resource "google_service_account_iam_member" "wif_sa_binding" {
   service_account_id = google_service_account.frontend_deployer.name
   role               = "roles/iam.workloadIdentityUser"

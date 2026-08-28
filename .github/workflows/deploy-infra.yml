@@ -26,6 +26,13 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
 
+      - name: Debug Active Identity & Bucket Access
+        run: |
+          echo "================ ACTIVE IDENTITY ================"
+          gcloud config get-value account
+          echo "================ TEST BUCKET ACCESS ============="
+          gcloud storage ls gs://${{ secrets.GCP_PROJECT_ID }}-tfstate
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v4
         with:

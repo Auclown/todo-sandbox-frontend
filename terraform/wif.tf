@@ -30,3 +30,10 @@ resource "google_project_iam_member" "gke_developer" {
   role    = "roles/container.developer"
   member  = "serviceAccount:${google_service_account.frontend_deployer.email}"
 }
+
+#5. Grant Storage Object User permissions for Terraform GCS remote state
+resource "google_project_iam_member" "gcs_state_user" {
+  project = var.project_id
+  role    = "roles/storage.objectUser"
+  member  = "serviceAccount:${google_service_account.frontend_deployer.email}"
+}

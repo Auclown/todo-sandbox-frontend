@@ -48,14 +48,14 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev --quiet
 
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v4
+      # - name: Setup Docker Buildx
+      #   uses: docker/setup-buildx-action@v4
 
-      - name: Build Docker Image Locally
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          load: true
-          tags: |
-            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+      # - name: Build Docker Image Locally
+      #   uses: docker/build-push-action@v7
+      #   with:
+      #     context: .
+      #     load: true
+      #     tags: |
+      #       ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      #       ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest

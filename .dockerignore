@@ -1,0 +1,29 @@
+# Git
+.git/
+.gitignore
+
+# Node & others
+node_modules
+dist
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+README.md
+
+# Environment variables & secrets
+.env
+.env*
+.env.*
+*.pem
+*.key
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+
+# IaC & CI/CD
+.github/
+terraform/
+.terraform/
+k8s/
